@@ -18,6 +18,9 @@ handling the API requests and
 [jsonlite](https://cran.r-project.org/web/packages/jsonlite/index.html)
 to parse data from JSON format.
 
+As of 2022-01-27, the following formats can be used to retrieve PubChem
+CIDs: InChI, InChIKey, name (including synonyms), SDF, and SMILES.
+
 ## Installation
 
 You can install the development version of pcapi from
