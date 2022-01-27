@@ -3,7 +3,8 @@
   if (is.null(format)) {
     FALSE
   } else if (
-    !(any(tolower(format) %in% c("inchi", "inchikey", "name", "smiles")))
+    !(any(tolower(format) %in%
+          c("inchi", "inchikey", "name", "sdf", "smiles")))
     ) {
     FALSE
   } else {

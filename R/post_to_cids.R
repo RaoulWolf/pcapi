@@ -5,6 +5,7 @@
 #' @export
 post_to_cids <- function(x, format, json = FALSE) {
 
+  # sanity-check format
   if (isFALSE(.check_format(format))) {
     return(
       list(
@@ -17,6 +18,7 @@ post_to_cids <- function(x, format, json = FALSE) {
     )
   }
 
+  # sanity-check inchi
   if (tolower(format) == "inchi" && isFALSE(.check_inchi(x))) {
     return(
       list(
@@ -29,6 +31,7 @@ post_to_cids <- function(x, format, json = FALSE) {
     )
   }
 
+  # sanity-check inchikey
   if (tolower(format) == "inchikey" && isFALSE(.check_inchikey(x))) {
     return(
       list(
@@ -41,6 +44,7 @@ post_to_cids <- function(x, format, json = FALSE) {
     )
   }
 
+  # sanity-check smiles
   if (tolower(format) == "smiles" && isFALSE(.check_smiles(x))) {
     return(
       list(
@@ -53,6 +57,7 @@ post_to_cids <- function(x, format, json = FALSE) {
     )
   }
 
+  # sanity-check json
   if (isFALSE(.check_json(json))) {
     return(
       list(

@@ -1,0 +1,66 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# pcapi
+
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/RaoulWolf/pcapi/workflows/R-CMD-check/badge.svg)](https://github.com/RaoulWolf/pcapi/actions)
+<!-- badges: end -->
+
+The goal of the pcapi package is to provide a minimal and lightweight
+interface to the [PubChem](https://pubchem.ncbi.nlm.nih.gov/) API
+services.
+
+The dependencies of pcapi are kept at a bare minimum:
+[curl](https://cran.r-project.org/web/packages/curl/index.html) for
+handling the API requests and
+[jsonlite](https://cran.r-project.org/web/packages/jsonlite/index.html)
+to parse data from JSON format.
+
+## Installation
+
+You can install the development version of pcapi from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+remotes::install_github("RaoulWolf/pcapi")
+```
+
+## Examples
+
+The following examples show the functionality of two API functions of
+pcapi: `post_to_cid()` and `post_to_property()`.
+
+This is an example which shows you how to get the PubChem CID for
+aspirin:
+
+``` r
+library(pcapi)
+x <- "aspirin"
+post_to_cid(x, format = "name")
+```
+
+Here is an example which shows you how to get the properties for a
+PubChem CID. In this case, again, for aspirin:
+
+``` r
+cid <- 2244
+post_to_properties(cid)
+```
+
+## Acknowledgement
+
+This R package was developed by the EnviData initiative at the
+[Norwegian Geotechnical Institute (NGI)](https://www.ngi.no/eng) as part
+of the project [ZeroPM: Zero pollution of Persistent, Mobile
+substances](https://zeropm.eu/). This project has received funding from
+the European Union’s Horizon 2020 research and innovation programme
+under grant agreement No 101036756.
+
+------------------------------------------------------------------------
+
+If you find this package useful and can afford it, please consider
+making a donation to a humanitarian non-profit organization, such as
+[Sea-Watch](https://sea-watch.org/en/). Thank you.
