@@ -1,3 +1,43 @@
+#' @title POST PubChem CIDs to Retrieve Their Properties
+#' @description This function performs a query to retrieve properties for
+#'   PubChem CIDs.
+#' @param cid (Integer) PubChem CID(s) as single integer or a vector of
+#'   integers.
+#' @param property (Character) Properties to retrieve as single character or
+#'   vector of characters. Defaults to \code{"all"}. See Details for all
+#'   available properties.
+#' @param json (Logical) Should the result be returned as JSON? Defaults to
+#'   \code{FALSE}.
+#' @details The function performs a sanity check on the provided PubChem CIDs
+#'   and properties and then performs a query. If successful, a list with the
+#'   available properties will be returned.
+#'
+#'   Supported properties include \code{"MolecularFormula"},
+#'   \code{"MolecularWeight"}, \code{"CanonicalSMILES"},
+#'   \code{"IsomericSMILES"}, \code{"InChI"}, \code{"InChIKey"},
+#'   \code{"IUPACName"}, \code{"Title"}, \code{"XLogP"}, \code{"ExactMass"},
+#'   \code{"MonoisotopicMass"}, \code{"TPSA"}, \code{"Complexity"},
+#'   \code{"Charge"}, \code{"HBondDonorCount"}, \code{"HBondAcceptorCount"},
+#'   \code{"RotatableBondCount"}, \code{"HeavyAtomCount"},
+#'   \code{"IsotopeAtomCount"}, \code{"AtomStereoCount"},
+#'   \code{"DefinedAtomStereoCount"}, \code{"UndefinedAtomStereoCount"},
+#'   \code{"BondStereoCount"}, \code{"DefinedBondStereoCount"},
+#'   \code{"UndefinedBondStereoCount"}, \code{"CovalentUnitCount"},
+#'   \code{"Volume3D"}, \code{"XStericQuadrupole3D"},
+#'   \code{"YStericQuadrupole3D"}, \code{"ZStericQuadrupole3D"},
+#'   \code{"FeatureCount3D"}, \code{"FeatureAcceptorCount3D"},
+#'   \code{"FeatureDonorCount3D"}, \code{"FeatureAnionCount3D"},
+#'   \code{"FeatureCationCount3D"}, \code{"FeatureRingCount3D"},
+#'   \code{"FeatureHydrophobeCount3D"}, \code{"ConformerModelRMSD3D"},
+#'   \code{"EffectiveRotorCount3D"}, \code{"ConformerCount3D"}, and
+#'   \code{"Fingerprint2D"}. The default, \code{"all"}, retrieves all listed
+#'   properties.
+#' @return Returns a list.
+#' @author Raoul Wolf (\url{https://github.com/RaoulWolf/})
+#' @examples \dontrun{
+#' cid <- 2244
+#' post_to_properties(cid)
+#' }
 #' @source https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 #' @importFrom curl curl_fetch_memory handle_setheaders handle_setopt
 #'   new_handle
@@ -7,7 +47,7 @@ post_to_properties <- function(cid, property = "all", json = FALSE) {
 
   cid <- as.integer(cid)
 
-  if (sum(sapply(cid, .check_cid)) != length(cid)) {
+  if (sum(sapply(cid, .check_cid)) < length(cid)) {
     return(
       list(
         "Fault" = list(
@@ -19,7 +59,7 @@ post_to_properties <- function(cid, property = "all", json = FALSE) {
     )
   }
 
-  if (sum(sapply(property, .check_property)) != length(property)) {
+  if (sum(sapply(property, .check_property)) < length(property)) {
     return(
       list(
         "Fault" = list(

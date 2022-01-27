@@ -1,3 +1,23 @@
+#' @title POST Information to Retrieve PubChem CIDs
+#' @description This function performs a query to retrieve PubChem CIDs for
+#'   different inputs.
+#' @param x (Character) Input to the search, must match with the format.
+#' @param format (Character) Format type of the input. See Details for
+#'   supported formats.
+#' @param json (Logical) Should the result be returned as JSON? Defaults to
+#'   \code{FALSE}.
+#' @details The function performs a sanity check on the provided inputs and
+#'   then performs a query. If successful, a list with the available
+#'   PubChem CIDs will be returned.
+#'
+#'   Supported formats include \code{"InChI"}, \code{"InChIKey"},
+#'   \code{"Name"}, \code{"SDF"}, and \code{"SMILES"}.
+#' @return Returns a list.
+#' @author Raoul Wolf (\url{https://github.com/RaoulWolf/})
+#' @examples \dontrun{
+#' x <- "Aspirin"
+#' post_to_cids(x, format = "name")
+#' }
 #' @source https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 #' @importFrom curl curl_fetch_memory handle_setheaders handle_setopt
 #'   new_handle
