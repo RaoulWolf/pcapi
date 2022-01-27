@@ -16,14 +16,14 @@
 #' @author Raoul Wolf (\url{https://github.com/RaoulWolf/})
 #' @examples \dontrun{
 #' x <- "Aspirin"
-#' post_to_cids(x, format = "name")
+#' post_to_cid(x, format = "name")
 #' }
 #' @source https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 #' @importFrom curl curl_fetch_memory handle_setheaders handle_setopt
 #'   new_handle
 #' @importFrom jsonlite fromJSON
 #' @export
-post_to_cids <- function(x, format, json = FALSE) {
+post_to_cid <- function(x, format, json = FALSE) {
 
   # sanity-check format
   if (isFALSE(.check_format(format))) {

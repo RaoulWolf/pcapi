@@ -36,14 +36,14 @@
 #' @author Raoul Wolf (\url{https://github.com/RaoulWolf/})
 #' @examples \dontrun{
 #' cid <- 2244
-#' post_to_properties(cid)
+#' post_to_property(cid)
 #' }
 #' @source https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 #' @importFrom curl curl_fetch_memory handle_setheaders handle_setopt
 #'   new_handle
 #' @importFrom jsonlite fromJSON
 #' @export
-post_to_properties <- function(cid, property = "all", json = FALSE) {
+post_to_property <- function(cid, property = "all", json = FALSE) {
 
   cid <- as.integer(cid)
 

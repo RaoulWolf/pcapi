@@ -31,8 +31,8 @@ the API requests and
 [jsonlite](https://cran.r-project.org/web/packages/jsonlite/index.html) to 
 parse data from JSON format.
 
-As of `r Sys.Date()`, the following formats can be used to retrieve PubChem 
-CIDs: InChI, InChIKey, name (including synonyms), SDF, and SMILES. 
+Currently, the following formats can be used to retrieve PubChem 
+CIDs: InChI, InChIKey, names (including synonyms), SDF, and SMILES. 
 
 ## Installation
 
@@ -68,7 +68,7 @@ In this case, again, for aspirin:
 #| eval = FALSE
 
 cid <- 2244
-post_to_properties(cid)
+post_to_property(cid)
 ```
 
 ## Acknowledgement
