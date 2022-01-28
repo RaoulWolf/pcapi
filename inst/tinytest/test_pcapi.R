@@ -120,8 +120,11 @@ expect_equal(
 )
 
 expect_equal(
-  post_to_cid("CCO", format = "smiles", json = TRUE),
-  "{\n  \"IdentifierList\": {\n    \"CID\": [\n      702\n    ]\n  }\n}\n"
+  {
+    res <- post_to_cid("CCO", format = "smiles")
+    res$IdentifierList$CID
+  },
+  702L
 )
 
 # post_to_property()
@@ -151,8 +154,8 @@ expect_equal(
 
 expect_equal(
   {
-    res <- post_to_property(cid = c(702, 887), json = TRUE)
-    nchar(res)
+    res <- post_to_property(cid = c(702, 887))
+    dim(res$PropertyTable$Properties)
   },
-  3207L
+  c(2L, 42L)
 )

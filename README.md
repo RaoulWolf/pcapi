@@ -45,16 +45,65 @@ aspirin:
 
 ``` r
 library(pcapi)
-x <- "aspirin"
-post_to_cid(x, format = "name")
+
+aspirin_cid <- post_to_cid("Aspirin", format = "name")
+
+str(aspirin_cid)
+#> List of 1
+#>  $ IdentifierList:List of 1
+#>   ..$ CID: int 2244
 ```
 
 Here is an example which shows you how to get the properties for a
 PubChem CID. In this case, again, for aspirin:
 
 ``` r
-cid <- 2244
-post_to_property(cid)
+aspirin_properties <- post_to_property(aspirin_cid$IdentifierList$CID)
+
+str(aspirin_properties$PropertyTable$Properties)
+#> 'data.frame':    1 obs. of  42 variables:
+#>  $ CID                     : int 2244
+#>  $ MolecularFormula        : chr "C9H8O4"
+#>  $ MolecularWeight         : chr "180.16"
+#>  $ CanonicalSMILES         : chr "CC(=O)OC1=CC=CC=C1C(=O)O"
+#>  $ IsomericSMILES          : chr "CC(=O)OC1=CC=CC=C1C(=O)O"
+#>  $ InChI                   : chr "InChI=1S/C9H8O4/c1-6(10)13-8-5-3-2-4-7(8)9(11)12/h2-5H,1H3,(H,11,12)"
+#>  $ InChIKey                : chr "BSYNRYMUTXBXSQ-UHFFFAOYSA-N"
+#>  $ IUPACName               : chr "2-acetyloxybenzoic acid"
+#>  $ XLogP                   : num 1.2
+#>  $ ExactMass               : chr "180.04225873"
+#>  $ MonoisotopicMass        : chr "180.04225873"
+#>  $ TPSA                    : num 63.6
+#>  $ Complexity              : int 212
+#>  $ Charge                  : int 0
+#>  $ HBondDonorCount         : int 1
+#>  $ HBondAcceptorCount      : int 4
+#>  $ RotatableBondCount      : int 3
+#>  $ HeavyAtomCount          : int 13
+#>  $ IsotopeAtomCount        : int 0
+#>  $ AtomStereoCount         : int 0
+#>  $ DefinedAtomStereoCount  : int 0
+#>  $ UndefinedAtomStereoCount: int 0
+#>  $ BondStereoCount         : int 0
+#>  $ DefinedBondStereoCount  : int 0
+#>  $ UndefinedBondStereoCount: int 0
+#>  $ CovalentUnitCount       : int 1
+#>  $ Volume3D                : int 136
+#>  $ XStericQuadrupole3D     : num 3.86
+#>  $ YStericQuadrupole3D     : num 2.45
+#>  $ ZStericQuadrupole3D     : num 0.89
+#>  $ FeatureCount3D          : int 5
+#>  $ FeatureAcceptorCount3D  : int 3
+#>  $ FeatureDonorCount3D     : int 0
+#>  $ FeatureAnionCount3D     : int 1
+#>  $ FeatureCationCount3D    : int 0
+#>  $ FeatureRingCount3D      : int 1
+#>  $ FeatureHydrophobeCount3D: int 0
+#>  $ ConformerModelRMSD3D    : num 0.6
+#>  $ EffectiveRotorCount3D   : int 3
+#>  $ ConformerCount3D        : int 10
+#>  $ Fingerprint2D           : chr "AAADccBwOAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAABAAAAGgAACAAADASAmAAyDoAABgCIAiDSCAACCAAkIAAIiAEGCMgMJzaENRqCe2C"| __truncated__
+#>  $ Title                   : chr "Aspirin"
 ```
 
 ## Acknowledgement
