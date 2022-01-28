@@ -12,8 +12,6 @@
     FALSE
   } else if (nchar(unlist(strsplit(inchikey, split = "-"))[2]) != 10L) {
     FALSE
-  } else if (nchar(unlist(strsplit(inchikey, split = "-"))[3]) != 1L) {
-    FALSE
   } else {
     TRUE
   }
