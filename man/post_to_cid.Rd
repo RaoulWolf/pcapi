@@ -12,8 +12,8 @@ post_to_cid(x, format, json = FALSE)
 \arguments{
 \item{x}{(Character) Input to the search, must match with the format.}
 
-\item{format}{(Character) Format type of the input. See Details for
-supported formats.}
+\item{format}{(Character) Format type of the input. This is not case
+sensitive. Must be lower case! See Details for supported formats.}
 
 \item{json}{(Logical) Should the result be returned as JSON? Defaults to
 \code{FALSE}.}

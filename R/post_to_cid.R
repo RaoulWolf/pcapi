@@ -2,8 +2,8 @@
 #' @description This function performs a query to retrieve PubChem CIDs for
 #'   different inputs.
 #' @param x (Character) Input to the search, must match with the format.
-#' @param format (Character) Format type of the input. See Details for
-#'   supported formats.
+#' @param format (Character) Format type of the input. This is not case
+#'   sensitive. Must be lower case! See Details for supported formats.
 #' @param json (Logical) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
 #' @details The function performs a sanity check on the provided inputs and
@@ -89,6 +89,9 @@ post_to_cid <- function(x, format, json = FALSE) {
       )
     )
   }
+
+  # ensure format
+  format <- tolower(format)
 
   # define url building blocks
   prolog <- "https://pubchem.ncbi.nlm.nih.gov/rest/pug"

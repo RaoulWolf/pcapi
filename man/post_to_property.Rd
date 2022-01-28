@@ -14,8 +14,8 @@ post_to_property(cid, property = "all", json = FALSE)
 integers.}
 
 \item{property}{(Character) Properties to retrieve as single character or
-vector of characters. Defaults to \code{"all"}. See Details for all
-available properties.}
+vector of characters. This is case-sensitive! Defaults to \code{"all"}.
+See Details for all available properties.}
 
 \item{json}{(Logical) Should the result be returned as JSON? Defaults to
 \code{FALSE}.}

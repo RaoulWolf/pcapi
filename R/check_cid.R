@@ -1,8 +1,10 @@
 .check_cid <- function(cid) {
 
-  if (is.na(cid) || is.null(cid)) {
+  if (is.na(suppressWarnings(as.integer(cid))) || is.null(cid)) {
     FALSE
-  } else if (sign(cid) != 1) {
+  } else if (is.logical(cid)) {
+    FALSE
+  } else if (sign(as.integer(cid)) != 1) {
     FALSE
   } else {
     TRUE

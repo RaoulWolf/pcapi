@@ -6,6 +6,10 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/RaoulWolf/pcapi/workflows/R-CMD-check/badge.svg)](https://github.com/RaoulWolf/pcapi/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/RaoulWolf/pcapi/branch/master/graph/badge.svg)](https://app.codecov.io/gh/RaoulWolf/pcapi?branch=master)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 The goal of the pcapi package is to provide a minimal and lightweight

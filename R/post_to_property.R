@@ -4,8 +4,8 @@
 #' @param cid (Integer) PubChem CID(s) as single integer or a vector of
 #'   integers.
 #' @param property (Character) Properties to retrieve as single character or
-#'   vector of characters. Defaults to \code{"all"}. See Details for all
-#'   available properties.
+#'   vector of characters. This is case-sensitive! Defaults to \code{"all"}.
+#'   See Details for all available properties.
 #' @param json (Logical) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
 #' @details The function performs a sanity check on the provided PubChem CIDs
@@ -45,8 +45,7 @@
 #' @export
 post_to_property <- function(cid, property = "all", json = FALSE) {
 
-  cid <- as.integer(cid)
-
+  # sanity-check cid
   if (sum(sapply(cid, .check_cid)) < length(cid)) {
     return(
       list(
@@ -59,6 +58,7 @@ post_to_property <- function(cid, property = "all", json = FALSE) {
     )
   }
 
+  # sanity-check property
   if (sum(sapply(property, .check_property)) < length(property)) {
     return(
       list(
@@ -71,6 +71,7 @@ post_to_property <- function(cid, property = "all", json = FALSE) {
     )
   }
 
+  # sanity-check json
   if (isFALSE(.check_json(json))) {
     return(
       list(
@@ -83,59 +84,34 @@ post_to_property <- function(cid, property = "all", json = FALSE) {
     )
   }
 
+  # ensure cid
+  cid <- as.integer(cid)
+
+  # treat cid
   if (length(cid) > 1L) {
     cid <- paste(cid, collapse = ",")
   }
 
+  # combine properties
   if (property == "all") {
-
-    property <- paste(
-      "MolecularFormula",
-      "MolecularWeight",
-      "CanonicalSMILES",
-      "IsomericSMILES",
-      "InChI",
-      "InChIKey",
-      "IUPACName",
-      "Title",
-      "XLogP",
-      "ExactMass",
-      "MonoisotopicMass",
-      "TPSA",
-      "Complexity",
-      "Charge",
-      "HBondDonorCount",
-      "HBondAcceptorCount",
-      "RotatableBondCount",
-      "HeavyAtomCount",
-      "IsotopeAtomCount",
-      "AtomStereoCount",
-      "DefinedAtomStereoCount",
-      "UndefinedAtomStereoCount",
-      "BondStereoCount",
-      "DefinedBondStereoCount",
-      "UndefinedBondStereoCount",
-      "CovalentUnitCount",
-      "Volume3D",
-      "XStericQuadrupole3D",
-      "YStericQuadrupole3D",
-      "ZStericQuadrupole3D",
-      "FeatureCount3D",
-      "FeatureAcceptorCount3D",
-      "FeatureDonorCount3D",
-      "FeatureAnionCount3D",
-      "FeatureCationCount3D",
-      "FeatureRingCount3D",
-      "FeatureHydrophobeCount3D",
-      "ConformerModelRMSD3D",
-      "EffectiveRotorCount3D",
-      "ConformerCount3D",
-      "Fingerprint2D",
-      sep = ","
+    property <- c(
+      "MolecularFormula", "MolecularWeight", "CanonicalSMILES",
+      "IsomericSMILES", "InChI", "InChIKey", "IUPACName", "Title", "XLogP",
+      "ExactMass", "MonoisotopicMass", "TPSA", "Complexity", "Charge",
+      "HBondDonorCount", "HBondAcceptorCount", "RotatableBondCount",
+      "HeavyAtomCount", "IsotopeAtomCount", "AtomStereoCount",
+      "DefinedAtomStereoCount", "UndefinedAtomStereoCount", "BondStereoCount",
+      "DefinedBondStereoCount", "UndefinedBondStereoCount",
+      "CovalentUnitCount", "Volume3D", "XStericQuadrupole3D",
+      "YStericQuadrupole3D", "ZStericQuadrupole3D", "FeatureCount3D",
+      "FeatureAcceptorCount3D", "FeatureDonorCount3D", "FeatureAnionCount3D",
+      "FeatureCationCount3D", "FeatureRingCount3D", "FeatureHydrophobeCount3D",
+      "ConformerModelRMSD3D", "EffectiveRotorCount3D", "ConformerCount3D",
+      "Fingerprint2D"
     )
-
   }
 
+  # treat property
   if (length(property) > 1L) {
     property <- paste(property, collapse = ",")
   }
