@@ -8,6 +8,8 @@
 #'   See Details for all available properties.
 #' @param json (Logical) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
+#' @param extract (Logical) Should the (non-JSON) result be extracted, i.e.,
+#'   unlisted? Defaults to \code{TRUE}.
 #' @details The function performs a sanity check on the provided PubChem CIDs
 #'   and properties and then performs a query. If successful, a list with the
 #'   available properties will be returned.
@@ -32,7 +34,8 @@
 #'   \code{"EffectiveRotorCount3D"}, \code{"ConformerCount3D"}, and
 #'   \code{"Fingerprint2D"}. The default, \code{"all"}, retrieves all listed
 #'   properties.
-#' @return Returns a list.
+#' @return Returns a data frame or a list, depending on the value of
+#'   \code{extract}.
 #' @author Raoul Wolf (\url{https://github.com/RaoulWolf/})
 #' @examples \dontrun{
 #' cid <- 2244
@@ -43,45 +46,74 @@
 #'   new_handle
 #' @importFrom jsonlite fromJSON
 #' @export
-post_to_property <- function(cid, property = "all", json = FALSE) {
+post_to_property <- function(
+  cid, property = "all", json = FALSE, extract = TRUE
+) {
+
+  # sanity-check extract
+  if (isFALSE(.check_extract(extract))) {
+
+    res <- "Invalid extract."
+
+    return(res)
+
+  }
 
   # sanity-check cid
   if (sum(sapply(cid, .check_cid)) < length(cid)) {
-    return(
-      list(
-        "Fault" = list(
-          "Code" = NA_character_,
-          "Message" = "Invalid CID.",
-          "Details" = NA_character_
-        )
+
+    res <- list(
+      "Fault" = list(
+        "Code" = NA_character_,
+        "Message" = "Invalid CID.",
+        "Details" = NA_character_
       )
     )
+
+    if (extract) {
+      res <- res$Fault$Message
+    }
+
+    return(res)
+
   }
 
   # sanity-check property
   if (sum(sapply(property, .check_property)) < length(property)) {
-    return(
-      list(
-        "Fault" = list(
-          "Code" = NA_character_,
-          "Message" = "Invalid property.",
-          "Details" = NA_character_
-        )
+
+    res <- list(
+      "Fault" = list(
+        "Code" = NA_character_,
+        "Message" = "Invalid property.",
+        "Details" = NA_character_
       )
     )
+
+    if (extract) {
+      res <- res$Fault$Message
+    }
+
+    return(res)
+
   }
 
   # sanity-check json
   if (isFALSE(.check_json(json))) {
-    return(
-      list(
-        "Fault" = list(
-          "Code" = NA_character_,
-          "Message" = "Invalid JSON.",
-          "Details" = NA_character_
-        )
+
+    res <- list(
+      "Fault" = list(
+        "Code" = NA_character_,
+        "Message" = "Invalid JSON.",
+        "Details" = NA_character_
       )
     )
+
+    if (extract) {
+      res <- res$Fault$Message
+    }
+
+    return(res)
+
   }
 
   # ensure cid
@@ -150,7 +182,34 @@ post_to_property <- function(cid, property = "all", json = FALSE) {
 
   # transform content
   if (!json) {
+
     content <- jsonlite::fromJSON(content)
+
+    if (extract) {
+
+      content <- content$PropertyTable$Properties
+
+      if ("MolecularWeight" %in% colnames(content)) {
+        content <- transform(
+          content,
+          MolecularWeight = as.double(MolecularWeight)
+        )
+      }
+
+      if ("ExactMass" %in% colnames(content)) {
+        content <- transform(
+          content,
+          ExactMass = as.double(ExactMass)
+        )
+      }
+
+      if ("MonoisotopicMass" %in% colnames(content)) {
+        content <- transform(
+          content,
+          MonoisotopicMass = as.double(MonoisotopicMass)
+        )
+      }
+    }
   }
 
   # return content

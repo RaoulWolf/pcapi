@@ -6,13 +6,15 @@
 #'   sensitive. Must be lower case! See Details for supported formats.
 #' @param json (Logical) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
+#' @param extract (Logical) Should the (non-JSON) result be extracted, i.e.,
+#'   unlisted? Defaults to \code{TRUE}.
 #' @details The function performs a sanity check on the provided inputs and
 #'   then performs a query. If successful, a list with the available
 #'   PubChem CIDs will be returned.
 #'
 #'   Supported formats include \code{"InChI"}, \code{"InChIKey"},
 #'   \code{"Name"}, \code{"SDF"}, and \code{"SMILES"}.
-#' @return Returns a list.
+#' @return Returns a vector or a list, depending on the value of \code{extract}.
 #' @author Raoul Wolf (\url{https://github.com/RaoulWolf/})
 #' @examples \dontrun{
 #' x <- "Aspirin"
@@ -23,71 +25,109 @@
 #'   new_handle
 #' @importFrom jsonlite fromJSON
 #' @export
-post_to_cid <- function(x, format, json = FALSE) {
+post_to_cid <- function(x, format, json = FALSE, extract = TRUE) {
+
+  # sanity-check extract
+  if (isFALSE(.check_extract(extract))) {
+
+    res <- "Invalid extract."
+
+    return(res)
+
+  }
 
   # sanity-check format
   if (isFALSE(.check_format(format))) {
-    return(
-      list(
-        "Fault" = list(
-          "Code" = NA_character_,
-          "Message" = "Invalid format.",
-          "Details" = NA_character_
-        )
+
+    res <- list(
+      "Fault" = list(
+        "Code" = NA_character_,
+        "Message" = "Invalid format.",
+        "Details" = NA_character_
       )
     )
+
+    if (extract) {
+      res <- res$Fault$Message
+    }
+
+    return(res)
+
   }
 
   # sanity-check inchi
   if (tolower(format) == "inchi" && isFALSE(.check_inchi(x))) {
-    return(
-      list(
-        "Fault" = list(
-          "Code" = NA_character_,
-          "Message" = "Invalid InChI.",
-          "Details" = NA_character_
-        )
+
+    res <- list(
+      "Fault" = list(
+        "Code" = NA_character_,
+        "Message" = "Invalid InChI.",
+        "Details" = NA_character_
       )
     )
+
+    if (extract) {
+      res <- res$Fault$Message
+    }
+
+    return(res)
+
   }
 
   # sanity-check inchikey
   if (tolower(format) == "inchikey" && isFALSE(.check_inchikey(x))) {
-    return(
-      list(
-        "Fault" = list(
-          "Code" = NA_character_,
-          "Message" = "Invalid InChIKey.",
-          "Details" = NA_character_
-        )
+
+    res <- list(
+      "Fault" = list(
+        "Code" = NA_character_,
+        "Message" = "Invalid InChIKey.",
+        "Details" = NA_character_
       )
     )
+
+    if (extract) {
+      res <- res$Fault$Message
+    }
+
+    return(res)
   }
 
   # sanity-check smiles
   if (tolower(format) == "smiles" && isFALSE(.check_smiles(x))) {
-    return(
-      list(
-        "Fault" = list(
-          "Code" = NA_character_,
-          "Message" = "Invalid SMILES.",
-          "Details" = NA_character_
-        )
+
+    res <- list(
+      "Fault" = list(
+        "Code" = NA_character_,
+        "Message" = "Invalid SMILES.",
+        "Details" = NA_character_
       )
     )
+
+    if (extract) {
+      res <- res$Fault$Message
+    }
+
+    return(res)
+
   }
 
   # sanity-check json
   if (isFALSE(.check_json(json))) {
-    return(
-      list(
-        "Fault" = list(
-          "Code" = NA_character_,
-          "Message" = "Invalid JSON.",
-          "Details" = NA_character_
-        )
+
+    res <- list(
+      "Fault" = list(
+        "Code" = NA_character_,
+        "Message" = "Invalid JSON.",
+        "Details" = NA_character_
       )
     )
+
+    if (extract) {
+      res <- res$Fault$Message
+    }
+
+    return(res)
+
   }
 
   # ensure format
@@ -136,6 +176,9 @@ post_to_cid <- function(x, format, json = FALSE) {
   # transform content
   if (!json) {
     content <- jsonlite::fromJSON(content)
+    if (extract) {
+      content <- content$IdentifierList$CID
+    }
   }
 
   # return content

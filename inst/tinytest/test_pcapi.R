@@ -1,4 +1,13 @@
 
+# .check_extract()
+expect_false(pcapi:::.check_extract(NA))
+
+expect_false(pcapi:::.check_extract(NULL))
+
+expect_false(pcapi:::.check_extract(1))
+
+expect_true(pcapi:::.check_extract(TRUE))
+
 # .check_cid()
 expect_false(pcapi:::.check_cid(NA))
 
@@ -74,88 +83,62 @@ expect_true(pcapi:::.check_smiles("CCO"))
 
 # post_to_cid()
 expect_equal(
-  {
-    res <- post_to_cid("C2H6O", format = "formula")
-    res$Fault$Message
-  },
+  post_to_cid("CCO", format = "smiles", extract = "yes"),
+  "Invalid extract."
+)
+
+expect_equal(
+  post_to_cid("C2H6O", format = "formula"),
   "Invalid format."
 )
 
 expect_equal(
-  {
-    res <- post_to_cid(
-      "LFQSCWFLJHTTHZ-UHFFFAOYSA-N",
-      format = "inchi"
-    )
-    res$Fault$Message
-  },
+  post_to_cid("LFQSCWFLJHTTHZ-UHFFFAOYSA-N", format = "inchi"),
   "Invalid InChI."
 )
 
 expect_equal(
-  {
-    res <- post_to_cid(
-      "InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3",
-      format = "inchikey"
-    )
-    res$Fault$Message
-  },
+  post_to_cid("InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3", format = "inchikey"),
   "Invalid InChIKey."
 )
 
 expect_equal(
-  {
-    res <- post_to_cid("26", format = "smiles")
-    res$Fault$Message
-  },
+  post_to_cid("26", format = "smiles"),
   "Invalid SMILES."
 )
 
 expect_equal(
-  {
-    res <- post_to_cid("CCO", format = "smiles", json = "no")
-    res$Fault$Message
-  },
+  post_to_cid("CCO", format = "smiles", json = "no"),
   "Invalid JSON."
 )
 
 expect_equal(
-  {
-    res <- post_to_cid("CCO", format = "smiles")
-    res$IdentifierList$CID
-  },
+  post_to_cid("CCO", format = "smiles"),
   702L
 )
 
 # post_to_property()
 expect_equal(
-  {
-    res <- post_to_property(cid = "One")
-    res$Fault$Message
-  },
+  post_to_property(cid = c(702, 887), extract = "yes"),
+  "Invalid extract."
+)
+
+expect_equal(
+  post_to_property(cid = "One"),
   "Invalid CID."
 )
 
 expect_equal(
-  {
-    res <- post_to_property(cid = 702, property = "Smell")
-    res$Fault$Message
-  },
+  post_to_property(cid = 702, property = "Smell"),
   "Invalid property."
 )
 
 expect_equal(
-  {
-    res <- post_to_property(cid = 702, json = "yes")
-    res$Fault$Message
-  },
+  post_to_property(cid = 702, json = "yes"),
   "Invalid JSON."
 )
 
 expect_equal(
-  {
-    res <- post_to_property(cid = c(702, 887))
-    dim(res$PropertyTable$Properties)
-  },
+  dim(post_to_property(cid = c(702, 887))),
   c(2L, 42L)
 )
