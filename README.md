@@ -48,31 +48,29 @@ library(pcapi)
 
 aspirin_cid <- post_to_cid("Aspirin", format = "name")
 
-str(aspirin_cid)
-#> List of 1
-#>  $ IdentifierList:List of 1
-#>   ..$ CID: int 2244
+aspirin_cid
+#> [1] 2244
 ```
 
 Here is an example which shows you how to get the properties for a
 PubChem CID. In this case, again, for aspirin:
 
 ``` r
-aspirin_properties <- post_to_property(aspirin_cid$IdentifierList$CID)
+aspirin_properties <- post_to_property(aspirin_cid)
 
-str(aspirin_properties$PropertyTable$Properties)
+str(aspirin_properties)
 #> 'data.frame':    1 obs. of  42 variables:
 #>  $ CID                     : int 2244
 #>  $ MolecularFormula        : chr "C9H8O4"
-#>  $ MolecularWeight         : chr "180.16"
+#>  $ MolecularWeight         : num 180
 #>  $ CanonicalSMILES         : chr "CC(=O)OC1=CC=CC=C1C(=O)O"
 #>  $ IsomericSMILES          : chr "CC(=O)OC1=CC=CC=C1C(=O)O"
 #>  $ InChI                   : chr "InChI=1S/C9H8O4/c1-6(10)13-8-5-3-2-4-7(8)9(11)12/h2-5H,1H3,(H,11,12)"
 #>  $ InChIKey                : chr "BSYNRYMUTXBXSQ-UHFFFAOYSA-N"
 #>  $ IUPACName               : chr "2-acetyloxybenzoic acid"
 #>  $ XLogP                   : num 1.2
-#>  $ ExactMass               : chr "180.04225873"
-#>  $ MonoisotopicMass        : chr "180.04225873"
+#>  $ ExactMass               : num 180
+#>  $ MonoisotopicMass        : num 180
 #>  $ TPSA                    : num 63.6
 #>  $ Complexity              : int 212
 #>  $ Charge                  : int 0

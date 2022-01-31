@@ -60,16 +60,16 @@ library(pcapi)
 
 aspirin_cid <- post_to_cid("Aspirin", format = "name")
 
-str(aspirin_cid)
+aspirin_cid
 ```
 
 Here is an example which shows you how to get the properties for a PubChem CID. 
 In this case, again, for aspirin:
 
 ```{r example2}
-aspirin_properties <- post_to_property(aspirin_cid$IdentifierList$CID)
+aspirin_properties <- post_to_property(aspirin_cid)
 
-str(aspirin_properties$PropertyTable$Properties)
+str(aspirin_properties)
 ```
 
 ## Acknowledgement
