@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/RaoulWolf/pcapi/workflows/R-CMD-check/badge.svg)](https://github.com/RaoulWolf/pcapi/actions)
+[![pkgcheck](https://github.com/RaoulWolf/pcapi/workflows/pkgcheck/badge.svg)](https://github.com/RaoulWolf/pcapi/actions?query=workflow%3Apkgcheck)
 [![Codecov test
 coverage](https://codecov.io/gh/RaoulWolf/pcapi/branch/master/graph/badge.svg)](https://app.codecov.io/gh/RaoulWolf/pcapi?branch=master)
 [![Lifecycle:

@@ -7,7 +7,7 @@
 https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 }
 \usage{
-post_to_cid(x, format, json = FALSE, extract = TRUE)
+post_to_cid(x, format, json = FALSE)
 }
 \arguments{
 \item{x}{(Character) Input to the search, must match with the format.}
@@ -17,9 +17,6 @@ sensitive. Must be lower case! See Details for supported formats.}
 
 \item{json}{(Logical) Should the result be returned as JSON? Defaults to
 \code{FALSE}.}
-
-\item{extract}{(Logical) Should the (non-JSON) result be extracted, i.e.,
-unlisted? Defaults to \code{TRUE}.}
 }
 \value{
 Returns a vector or a list, depending on the value of \code{extract}.

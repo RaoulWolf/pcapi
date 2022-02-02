@@ -7,7 +7,7 @@
 https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 }
 \usage{
-post_to_property(cid, property = "all", json = FALSE, extract = TRUE)
+post_to_property(cid, property = "all", json = FALSE)
 }
 \arguments{
 \item{cid}{(Integer) PubChem CID(s) as single integer or a vector of
@@ -19,9 +19,6 @@ See Details for all available properties.}
 
 \item{json}{(Logical) Should the result be returned as JSON? Defaults to
 \code{FALSE}.}
-
-\item{extract}{(Logical) Should the (non-JSON) result be extracted, i.e.,
-unlisted? Defaults to \code{TRUE}.}
 }
 \value{
 Returns a data frame or a list, depending on the value of

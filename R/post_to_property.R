@@ -8,8 +8,6 @@
 #'   See Details for all available properties.
 #' @param json (Logical) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
-#' @param extract (Logical) Should the (non-JSON) result be extracted, i.e.,
-#'   unlisted? Defaults to \code{TRUE}.
 #' @details The function performs a sanity check on the provided PubChem CIDs
 #'   and properties and then performs a query. If successful, a list with the
 #'   available properties will be returned.
@@ -46,74 +44,24 @@
 #'   new_handle
 #' @importFrom jsonlite fromJSON
 #' @export
-post_to_property <- function(
-  cid, property = "all", json = FALSE, extract = TRUE
-) {
-
-  # sanity-check extract
-  if (isFALSE(.check_extract(extract))) {
-
-    res <- "Invalid extract."
-
-    return(res)
-
-  }
+post_to_property <- function(cid, property = "all", json = FALSE) {
 
   # sanity-check cid
   if (sum(sapply(cid, .check_cid)) < length(cid)) {
-
-    res <- list(
-      "Fault" = list(
-        "Code" = NA_character_,
-        "Message" = "Invalid CID.",
-        "Details" = NA_character_
-      )
-    )
-
-    if (extract) {
-      res <- res$Fault$Message
-    }
-
-    return(res)
-
+    warning("Invalid CID.", call. = FALSE)
+    return(NULL)
   }
 
   # sanity-check property
   if (sum(sapply(property, .check_property)) < length(property)) {
-
-    res <- list(
-      "Fault" = list(
-        "Code" = NA_character_,
-        "Message" = "Invalid property.",
-        "Details" = NA_character_
-      )
-    )
-
-    if (extract) {
-      res <- res$Fault$Message
-    }
-
-    return(res)
-
+    warning("Invalid property.", call. = FALSE)
+    return(NULL)
   }
 
   # sanity-check json
   if (isFALSE(.check_json(json))) {
-
-    res <- list(
-      "Fault" = list(
-        "Code" = NA_character_,
-        "Message" = "Invalid JSON.",
-        "Details" = NA_character_
-      )
-    )
-
-    if (extract) {
-      res <- res$Fault$Message
-    }
-
-    return(res)
-
+    warning("Invalid JSON.", call. = FALSE)
+    return(NULL)
   }
 
   # ensure cid
@@ -125,7 +73,7 @@ post_to_property <- function(
   }
 
   # combine properties
-  if (property == "all") {
+  if (length(property) == 1L && property == "all") {
     property <- c(
       "MolecularFormula", "MolecularWeight", "CanonicalSMILES",
       "IsomericSMILES", "InChI", "InChIKey", "IUPACName", "Title", "XLogP",
@@ -157,10 +105,7 @@ post_to_property <- function(
   url <- paste(prolog, input, operation, sep = "/")
 
   # define header
-  header <- list(
-    "Content-Type" = "application/x-www-form-urlencoded",
-    "Accept" = "application/json"
-  )
+  header <- list("Accept" = "application/json")
 
   # assemble POST fields
   fields <- paste("cid", cid, sep = "=")
@@ -174,6 +119,9 @@ post_to_property <- function(
   # set cURL header
   curl::handle_setheaders(handle, .list = header)
 
+  # ensure volume limitation
+  Sys.sleep(0.2)
+
   # retrieve results
   result <- curl::curl_fetch_memory(url, handle)
 
@@ -182,33 +130,28 @@ post_to_property <- function(
 
   # transform content
   if (!json) {
-
     content <- jsonlite::fromJSON(content)
+    content <- content$PropertyTable$Properties
 
-    if (extract) {
+    if ("MolecularWeight" %in% colnames(content)) {
+      content <- transform(
+        content,
+        MolecularWeight = as.double(MolecularWeight)
+      )
+    }
 
-      content <- content$PropertyTable$Properties
+    if ("ExactMass" %in% colnames(content)) {
+      content <- transform(
+        content,
+        ExactMass = as.double(ExactMass)
+      )
+    }
 
-      if ("MolecularWeight" %in% colnames(content)) {
-        content <- transform(
-          content,
-          MolecularWeight = as.double(MolecularWeight)
-        )
-      }
-
-      if ("ExactMass" %in% colnames(content)) {
-        content <- transform(
-          content,
-          ExactMass = as.double(ExactMass)
-        )
-      }
-
-      if ("MonoisotopicMass" %in% colnames(content)) {
-        content <- transform(
-          content,
-          MonoisotopicMass = as.double(MonoisotopicMass)
-        )
-      }
+    if ("MonoisotopicMass" %in% colnames(content)) {
+      content <- transform(
+        content,
+        MonoisotopicMass = as.double(MonoisotopicMass)
+      )
     }
   }
 

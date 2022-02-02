@@ -1,13 +1,4 @@
 
-# .check_extract()
-expect_false(pcapi:::.check_extract(NA))
-
-expect_false(pcapi:::.check_extract(NULL))
-
-expect_false(pcapi:::.check_extract(1))
-
-expect_true(pcapi:::.check_extract(TRUE))
-
 # .check_cid()
 expect_false(pcapi:::.check_cid(NA))
 
@@ -82,34 +73,24 @@ expect_false(pcapi:::.check_smiles("0123456789"))
 expect_true(pcapi:::.check_smiles("CCO"))
 
 # post_to_cid()
-expect_equal(
-  post_to_cid("CCO", format = "smiles", extract = "yes"),
-  "Invalid extract."
+expect_warning(
+  post_to_cid("C2H6O", format = "formula")
 )
 
-expect_equal(
-  post_to_cid("C2H6O", format = "formula"),
-  "Invalid format."
+expect_warning(
+  post_to_cid("LFQSCWFLJHTTHZ-UHFFFAOYSA-N", format = "inchi")
 )
 
-expect_equal(
-  post_to_cid("LFQSCWFLJHTTHZ-UHFFFAOYSA-N", format = "inchi"),
-  "Invalid InChI."
+expect_warning(
+  post_to_cid("InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3", format = "inchikey")
 )
 
-expect_equal(
-  post_to_cid("InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3", format = "inchikey"),
-  "Invalid InChIKey."
+expect_warning(
+  post_to_cid("26", format = "smiles")
 )
 
-expect_equal(
-  post_to_cid("26", format = "smiles"),
-  "Invalid SMILES."
-)
-
-expect_equal(
-  post_to_cid("CCO", format = "smiles", json = "no"),
-  "Invalid JSON."
+expect_warning(
+  post_to_cid("CCO", format = "smiles", json = "no")
 )
 
 expect_equal(
@@ -118,24 +99,16 @@ expect_equal(
 )
 
 # post_to_property()
-expect_equal(
-  post_to_property(cid = c(702, 887), extract = "yes"),
-  "Invalid extract."
+expect_warning(
+  post_to_property(cid = "One")
 )
 
-expect_equal(
-  post_to_property(cid = "One"),
-  "Invalid CID."
+expect_warning(
+  post_to_property(cid = 702, property = "Smell")
 )
 
-expect_equal(
-  post_to_property(cid = 702, property = "Smell"),
-  "Invalid property."
-)
-
-expect_equal(
-  post_to_property(cid = 702, json = "yes"),
-  "Invalid JSON."
+expect_warning(
+  post_to_property(cid = 702, json = "yes")
 )
 
 expect_equal(
