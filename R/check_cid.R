@@ -1,6 +1,8 @@
 .check_cid <- function(cid) {
 
-  if (is.na(suppressWarnings(as.integer(cid))) || is.null(cid)) {
+  if (length(cid) > 1L) {
+    FALSE
+  } else if (is.na(suppressWarnings(as.integer(cid))) || is.null(cid)) {
     FALSE
   } else if (is.logical(cid)) {
     FALSE

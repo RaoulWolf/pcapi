@@ -21,8 +21,8 @@ See Details for all available properties.}
 \code{FALSE}.}
 }
 \value{
-Returns a data frame or a list, depending on the value of
-  \code{extract}.
+Returns an data frame or a character string, depending on the value
+  of \code{json}.
 }
 \description{
 This function performs a query to retrieve properties for

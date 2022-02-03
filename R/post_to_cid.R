@@ -12,7 +12,8 @@
 #'
 #'   Supported formats include \code{"InChI"}, \code{"InChIKey"},
 #'   \code{"Name"}, \code{"SDF"}, and \code{"SMILES"}.
-#' @return Returns a vector or a list, depending on the value of \code{extract}.
+#' @return Returns an integer (or possibly vector thereof) or a character
+#'   string, depending on the value of \code{json}.
 #' @author Raoul Wolf (\url{https://github.com/RaoulWolf/})
 #' @examples \dontrun{
 #' x <- "Aspirin"
@@ -27,32 +28,27 @@ post_to_cid <- function(x, format, json = FALSE) {
 
   # sanity-check format
   if (isFALSE(.check_format(format))) {
-    warning("Invalid format.", call. = FALSE)
-    return(NA_integer_)
+    stop("Invalid format.", call. = FALSE)
   }
 
   # sanity-check inchi
   if (tolower(format) == "inchi" && isFALSE(.check_inchi(x))) {
-    warning("Invalid InChI.", call. = FALSE)
-    return(NA_integer_)
+    stop("Invalid InChI.", call. = FALSE)
   }
 
   # sanity-check inchikey
   if (tolower(format) == "inchikey" && isFALSE(.check_inchikey(x))) {
-    warning("Invalid InChIKey.", call. = FALSE)
-    return(NA_integer_)
+    stop("Invalid InChIKey.", call. = FALSE)
   }
 
   # sanity-check smiles
   if (tolower(format) == "smiles" && isFALSE(.check_smiles(x))) {
-    warning("Invalid SMILES.", call. = FALSE)
-    return(NA_integer_)
+    stop("Invalid SMILES.", call. = FALSE)
   }
 
   # sanity-check json
   if (isFALSE(.check_json(json))) {
-    warning("Invalid JSON.", call. = FALSE)
-    return(NULL)
+    stop("Invalid JSON.", call. = FALSE)
   }
 
   # ensure format
@@ -100,6 +96,18 @@ post_to_cid <- function(x, format, json = FALSE) {
 
   # decode content
   content <- rawToChar(result$content)
+
+  # check status
+  if (result$status_code != 200L) {
+    content <- jsonlite::fromJSON(content)
+    warning(content$Fault$Message, call. = FALSE)
+
+    if (!json) {
+      return(NA_integer_)
+    } else {
+      return(NA_character_)
+    }
+  }
 
   # transform content
   if (!json) {

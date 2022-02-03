@@ -19,7 +19,8 @@ sensitive. Must be lower case! See Details for supported formats.}
 \code{FALSE}.}
 }
 \value{
-Returns a vector or a list, depending on the value of \code{extract}.
+Returns an integer (or possibly vector thereof) or a character
+  string, depending on the value of \code{json}.
 }
 \description{
 This function performs a query to retrieve PubChem CIDs for

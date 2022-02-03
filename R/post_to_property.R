@@ -32,8 +32,8 @@
 #'   \code{"EffectiveRotorCount3D"}, \code{"ConformerCount3D"}, and
 #'   \code{"Fingerprint2D"}. The default, \code{"all"}, retrieves all listed
 #'   properties.
-#' @return Returns a data frame or a list, depending on the value of
-#'   \code{extract}.
+#' @return Returns an data frame or a character string, depending on the value
+#'   of \code{json}.
 #' @author Raoul Wolf (\url{https://github.com/RaoulWolf/})
 #' @examples \dontrun{
 #' cid <- 2244
@@ -48,20 +48,17 @@ post_to_property <- function(cid, property = "all", json = FALSE) {
 
   # sanity-check cid
   if (sum(sapply(cid, .check_cid)) < length(cid)) {
-    warning("Invalid CID.", call. = FALSE)
-    return(NULL)
+    stop("Invalid CID.", call. = FALSE)
   }
 
   # sanity-check property
   if (sum(sapply(property, .check_property)) < length(property)) {
-    warning("Invalid property.", call. = FALSE)
-    return(NULL)
+    stop("Invalid property.", call. = FALSE)
   }
 
   # sanity-check json
   if (isFALSE(.check_json(json))) {
-    warning("Invalid JSON.", call. = FALSE)
-    return(NULL)
+    stop("Invalid JSON.", call. = FALSE)
   }
 
   # ensure cid
@@ -127,6 +124,18 @@ post_to_property <- function(cid, property = "all", json = FALSE) {
 
   # decode content
   content <- rawToChar(result$content)
+
+  # check status
+  if (result$status_code != 200L) {
+    content <- jsonlite::fromJSON(content)
+    warning(content$Fault$Message, call. = FALSE)
+
+    if (!json) {
+      return(list())
+    } else {
+      return(NA_character_)
+    }
+  }
 
   # transform content
   if (!json) {

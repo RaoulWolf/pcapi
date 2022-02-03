@@ -73,23 +73,23 @@ expect_false(pcapi:::.check_smiles("0123456789"))
 expect_true(pcapi:::.check_smiles("CCO"))
 
 # post_to_cid()
-expect_warning(
+expect_error(
   post_to_cid("C2H6O", format = "formula")
 )
 
-expect_warning(
+expect_error(
   post_to_cid("LFQSCWFLJHTTHZ-UHFFFAOYSA-N", format = "inchi")
 )
 
-expect_warning(
+expect_error(
   post_to_cid("InChI=1S/C2H6O/c1-2-3/h3H,2H2,1H3", format = "inchikey")
 )
 
-expect_warning(
+expect_error(
   post_to_cid("26", format = "smiles")
 )
 
-expect_warning(
+expect_error(
   post_to_cid("CCO", format = "smiles", json = "no")
 )
 
@@ -99,15 +99,15 @@ expect_equal(
 )
 
 # post_to_property()
-expect_warning(
+expect_error(
   post_to_property(cid = "One")
 )
 
-expect_warning(
+expect_error(
   post_to_property(cid = 702, property = "Smell")
 )
 
-expect_warning(
+expect_error(
   post_to_property(cid = 702, json = "yes")
 )
 
