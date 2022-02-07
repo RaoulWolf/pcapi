@@ -28,16 +28,16 @@ This function performs a query to retrieve PubChem CIDs for
 }
 \details{
 The function performs a sanity check on the provided inputs and
-  then performs a query. If successful, a list with the available
-  PubChem CIDs will be returned.
+  then performs a query. If successful, a integer vector with the available
+  PubChem CID(s) will be returned.
 
   Supported formats include \code{"InChI"}, \code{"InChIKey"},
   \code{"Name"}, \code{"SDF"}, and \code{"SMILES"}.
 }
 \examples{
 \dontrun{
-x <- "Aspirin"
-post_to_cid(x, format = "name")
+name <- "Atrazine"
+post_to_cid(name, format = "Name")
 }
 }
 \author{

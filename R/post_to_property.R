@@ -9,8 +9,8 @@
 #' @param json (Logical) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
 #' @details The function performs a sanity check on the provided PubChem CIDs
-#'   and properties and then performs a query. If successful, a list with the
-#'   available properties will be returned.
+#'   and properties and then performs a query. If successful, a data.frame with
+#'   the available properties will be returned.
 #'
 #'   Supported properties include \code{"MolecularFormula"},
 #'   \code{"MolecularWeight"}, \code{"CanonicalSMILES"},
@@ -47,7 +47,7 @@
 post_to_property <- function(cid, property = "all", json = FALSE) {
 
   # sanity-check cid
-  if (sum(sapply(cid, .check_cid)) < length(cid)) {
+  if (missing(cid) || sum(sapply(cid, .check_cid)) < length(cid)) {
     stop("Invalid CID.", call. = FALSE)
   }
 
@@ -57,7 +57,7 @@ post_to_property <- function(cid, property = "all", json = FALSE) {
   }
 
   # sanity-check json
-  if (isFALSE(.check_json(json))) {
+  if (!.check_json(json)) {
     stop("Invalid JSON.", call. = FALSE)
   }
 

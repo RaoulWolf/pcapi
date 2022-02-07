@@ -7,17 +7,18 @@
 #' @param json (Logical) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
 #' @details The function performs a sanity check on the provided inputs and
-#'   then performs a query. If successful, a list with the available
-#'   PubChem CIDs will be returned.
+#'   then performs a query. If successful, a integer vector with the available
+#'   PubChem CID(s) will be returned.
 #'
 #'   Supported formats include \code{"InChI"}, \code{"InChIKey"},
 #'   \code{"Name"}, \code{"SDF"}, and \code{"SMILES"}.
 #' @return Returns an integer (or possibly vector thereof) or a character
 #'   string, depending on the value of \code{json}.
 #' @author Raoul Wolf (\url{https://github.com/RaoulWolf/})
-#' @examples \dontrun{
-#' x <- "Aspirin"
-#' post_to_cid(x, format = "name")
+#' @examples
+#' \dontrun{
+#' name <- "Atrazine"
+#' post_to_cid(name, format = "Name")
 #' }
 #' @source https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 #' @importFrom curl curl_fetch_memory handle_setheaders handle_setopt
@@ -26,28 +27,33 @@
 #' @export
 post_to_cid <- function(x, format, json = FALSE) {
 
+  # sanity-check x
+  if (missing(x) || length(x) > 1L) {
+    stop("Invalid x.", call. = FALSE)
+  }
+
   # sanity-check format
-  if (isFALSE(.check_format(format))) {
+  if (missing(format) || !.check_format(format)) {
     stop("Invalid format.", call. = FALSE)
   }
 
   # sanity-check inchi
-  if (tolower(format) == "inchi" && isFALSE(.check_inchi(x))) {
+  if (tolower(format) == "inchi" && !.check_inchi(x)) {
     stop("Invalid InChI.", call. = FALSE)
   }
 
   # sanity-check inchikey
-  if (tolower(format) == "inchikey" && isFALSE(.check_inchikey(x))) {
+  if (tolower(format) == "inchikey" && !.check_inchikey(x)) {
     stop("Invalid InChIKey.", call. = FALSE)
   }
 
   # sanity-check smiles
-  if (tolower(format) == "smiles" && isFALSE(.check_smiles(x))) {
+  if (tolower(format) == "smiles" && !.check_smiles(x)) {
     stop("Invalid SMILES.", call. = FALSE)
   }
 
   # sanity-check json
-  if (isFALSE(.check_json(json))) {
+  if (!.check_json(json)) {
     stop("Invalid JSON.", call. = FALSE)
   }
 
@@ -113,6 +119,10 @@ post_to_cid <- function(x, format, json = FALSE) {
   if (!json) {
     content <- jsonlite::fromJSON(content)
     content <- content$IdentifierList$CID
+
+    if (is.null(content) || content == 0L) {
+      return(NA_integer_)
+    }
   }
 
   # return content

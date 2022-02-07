@@ -1,3 +1,10 @@
+# pcapi 0.0.2 (2022-02-04)
+
+* Re-writing of `post_to_cid()` and `post_to_property()`.
+* New functions `post_to_transformation()` and `post_to_use()` to retrieve 
+  transformation products and use categories, respectively. 
+* Improved sanity-checking for PubChem CIDs. 
+
 # pcapi 0.0.1
 
 * Implemented two functions: `post_to_cid()` and `post_to_property`.

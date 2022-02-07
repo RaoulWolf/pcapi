@@ -6,6 +6,8 @@
     FALSE
   } else if (is.logical(cid)) {
     FALSE
+  } else if (grepl(pattern = "\\.", cid)) {
+    FALSE
   } else if (sign(as.integer(cid)) != 1) {
     FALSE
   } else {

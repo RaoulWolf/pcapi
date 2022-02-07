@@ -30,8 +30,8 @@ This function performs a query to retrieve properties for
 }
 \details{
 The function performs a sanity check on the provided PubChem CIDs
-  and properties and then performs a query. If successful, a list with the
-  available properties will be returned.
+  and properties and then performs a query. If successful, a data.frame with
+  the available properties will be returned.
 
   Supported properties include \code{"MolecularFormula"},
   \code{"MolecularWeight"}, \code{"CanonicalSMILES"},

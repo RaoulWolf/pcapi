@@ -1,23 +1,26 @@
-#' @title POST a PubChem CID to Retrieve Its Transformation Products
-#' @description This function performs a query to retrieve known transformation
-#'   products for a PubChem CID.
+#' @title POST a PubChem CID to Retrieve Its Use Categories
+#' @description This function performs a query to retrieve known use categories
+#'   for a PubChem CID.
 #' @param cid (Integer) PubChem CID as single integer.
 #' @param json (Logical) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
 #' @details The function performs a sanity check on the provided PubChem CID
 #'   and then performs a query. If successful, a data frame with the available
-#'   transformation products will be returned.
+#'   use categories will be returned.
 #' @return Returns an data frame or a character string, depending on the value
 #'   of \code{json}.
 #' @author Raoul Wolf (\url{https://github.com/RaoulWolf/})
 #' @examples \dontrun{
 #' cid <- 2256
-#' post_to_transformation(cid)
+#' post_to_use(cid)
 #' }
 #' @importFrom curl curl_fetch_memory handle_setopt new_handle
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
-post_to_transformation <- function(cid, json = FALSE) {
+#' @importFrom curl curl_fetch_memory handle_setopt new_handle
+#' @importFrom jsonlite fromJSON toJSON
+#' @export
+post_to_use <- function(cid, json = FALSE) {
 
   # sanity-check cid
   if (missing(cid) || !.check_cid(cid)) {
@@ -44,9 +47,9 @@ post_to_transformation <- function(cid, json = FALSE) {
   query <- jsonlite::toJSON(
     list(
       "download" = "*",
-      "collection" = "transformations",
+      "collection" = "cpdat",
       "where" = list("ands" = data.frame("cid" = as.character(cid))),
-      "order" = I(paste("relevancescore", "desc", sep = ",")),
+      "order" = I(paste("category", "asc", sep = ",")),
       "start" = 1L,
       "limit" = 10000000L
     ),
@@ -93,11 +96,7 @@ post_to_transformation <- function(cid, json = FALSE) {
     content <- jsonlite::fromJSON(content)
 
     if (length(content) > 0L) {
-      content <- transform(
-        content,
-        predecessorcid = as.integer(predecessorcid),
-        successorcid = as.integer(successorcid)
-      )
+      content <- transform(content, cid = as.integer(cid))
     }
   }
 
