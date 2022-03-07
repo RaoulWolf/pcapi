@@ -94,9 +94,6 @@ post_to_cid <- function(x, format, json = FALSE) {
   # set cURL header
   curl::handle_setheaders(handle, .list = header)
 
-  # ensure volume limitation
-  Sys.sleep(0.2)
-
   # retrieve results
   result <- curl::curl_fetch_memory(url, handle)
 

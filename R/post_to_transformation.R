@@ -67,9 +67,6 @@ post_to_transformation <- function(cid, json = FALSE) {
   # specify POST request
   curl::handle_setopt(handle, customrequest = "POST", postfields = fields)
 
-  # ensure volume limitation
-  Sys.sleep(0.2)
-
   # retrieve results
   result <- curl::curl_fetch_memory(url, handle)
 

@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# pcapi
+# pcapi <img src="man/figures/logo.svg" align="right" height="139" />
 
 <!-- badges: start -->
 
@@ -11,6 +11,8 @@ coverage](https://codecov.io/gh/RaoulWolf/pcapi/branch/master/graph/badge.svg)](
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
+
+> A [ZeroPM](https://zeropm.eu/) R package
 
 The goal of the pcapi package is to provide a minimal and lightweight
 interface to the [PubChem](https://pubchem.ncbi.nlm.nih.gov/) API
@@ -24,6 +26,19 @@ to parse data from JSON format.
 
 Currently, the following formats can be used to retrieve PubChem CIDs:
 InChI, InChIKey, names (including synonyms), SDF, and SMILES.
+
+### But what about [webchem](https://docs.ropensci.org/webchem/)?
+
+First of all, [webchem](https://docs.ropensci.org/webchem/) is a
+fantastic package - please use it! webchem offers support for many
+different API services, not only PubChem’s API service. However, there
+are issues related to the way webchem sets up the queries against
+PubChem API services, which can result in errors. This has been
+observed, for example, when SMILES or InChI strings contain backslashes,
+or an MOL/SDF is used as input. With pcapi, these problems are
+(hopefully) solved. Additionally, pcapi will continuously implement some
+of the lesser known functionalities, such as the retrival of
+transformation products.
 
 ## Installation
 

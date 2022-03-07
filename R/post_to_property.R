@@ -116,9 +116,6 @@ post_to_property <- function(cid, property = "all", json = FALSE) {
   # set cURL header
   curl::handle_setheaders(handle, .list = header)
 
-  # ensure volume limitation
-  Sys.sleep(0.2)
-
   # retrieve results
   result <- curl::curl_fetch_memory(url, handle)
 
