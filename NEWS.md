@@ -1,3 +1,8 @@
+# pcapi 0.2.0 (2022-04-28)
+
+* Included new function `post_to_standardize()`.
+* Minor bug fixes. 
+
 # pcapi 0.0.2 (2022-03-07)
 
 * Version bump to 0.1.0.

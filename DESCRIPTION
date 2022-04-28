@@ -1,7 +1,7 @@
 Package: pcapi
 Type: Package
 Title: Access the PubChem API Services
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     c(person(given = "Raoul",
              family = "Wolf",

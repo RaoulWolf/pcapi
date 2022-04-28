@@ -2,6 +2,7 @@
 
 export(post_to_cid)
 export(post_to_property)
+export(post_to_standardize)
 export(post_to_transformation)
 export(post_to_use)
 importFrom(curl,curl_fetch_memory)

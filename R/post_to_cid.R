@@ -28,7 +28,7 @@
 post_to_cid <- function(x, format, json = FALSE) {
 
   # sanity-check x
-  if (missing(x) || length(x) > 1L) {
+  if (missing(x) || is.na(x) || length(x) > 1L) {
     stop("Invalid x.", call. = FALSE)
   }
 
