@@ -91,6 +91,11 @@ post_to_standardize <- function(x, format, json = FALSE) {
 
     content <- jsonlite::fromJSON(content)
 
+    if (result$status_code != 200L) {
+      warning(content$Fault$Message, call. = FALSE)
+      return(data.frame())
+    }
+
     content <- data.frame(
       "compound_id_type" = content$PC_Compounds$id$type,
       "compound_cid" = content$PC_Compounds$id$id$cid,
