@@ -65,6 +65,7 @@ functions, as well as their expected inputs and outputs.
 | `post_to_property()`       | PubChem CID                                      | data frame of properties              |
 | `post_to_transformation()` | PubChem CID                                      | data frame of transformation products |
 | `post_to_use()`            | PubChem CID                                      | data frame of use categories          |
+| `post_to_standardize()`    | InChI, SDF, SMILES                               | data frame of standardized compounds  |
 
 ## Examples
 
