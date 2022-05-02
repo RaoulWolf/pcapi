@@ -6,5 +6,3 @@
 ^codecov\.yml$
 R/test
 R/test/*
-R/R/post_to_classification.R
-R/R/post_to_annotation.R
