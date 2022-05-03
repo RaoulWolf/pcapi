@@ -27,7 +27,7 @@ The function performs a sanity check on the provided PubChem CID
 }
 \examples{
 \dontrun{
-cid <- 2256
+cid <- 2256L
 post_to_use(cid)
 }
 }

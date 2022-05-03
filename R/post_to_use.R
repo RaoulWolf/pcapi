@@ -11,7 +11,7 @@
 #'   of \code{json}.
 #' @author Raoul Wolf (\url{https://github.com/RaoulWolf/})
 #' @examples \dontrun{
-#' cid <- 2256
+#' cid <- 2256L
 #' post_to_use(cid)
 #' }
 #' @importFrom curl curl_fetch_memory handle_setopt new_handle
@@ -82,7 +82,7 @@ post_to_use <- function(cid, json = FALSE) {
     warning(content$Fault$Message, call. = FALSE)
 
     if (!json) {
-      return(list())
+      return(data.frame())
     } else {
       return(NA_character_)
     }
@@ -92,7 +92,9 @@ post_to_use <- function(cid, json = FALSE) {
   if (!json) {
     content <- jsonlite::fromJSON(content)
 
-    if (length(content) > 0L) {
+    if (length(content) == 0L) {
+      return(data.frame())
+    } else {
       content <- transform(content, cid = as.integer(cid))
     }
   }

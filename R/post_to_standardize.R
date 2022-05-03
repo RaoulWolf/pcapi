@@ -33,7 +33,7 @@
 #' @export
 post_to_standardize <- function(x, format, json = FALSE) {
 
-  if (missing(x) || is.na(x) || length(x) > 1L) {
+  if (missing(x) || length(x) > 1L) {
     stop("Invalid x.", call. = FALSE)
   }
 

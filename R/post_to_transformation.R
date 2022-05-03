@@ -79,7 +79,7 @@ post_to_transformation <- function(cid, json = FALSE) {
     warning(content$Fault$Message, call. = FALSE)
 
     if (!json) {
-      return(list())
+      return(data.frame())
     } else {
       return(NA_character_)
     }
@@ -89,7 +89,9 @@ post_to_transformation <- function(cid, json = FALSE) {
   if (!json) {
     content <- jsonlite::fromJSON(content)
 
-    if (length(content) > 0L) {
+    if (length(content) == 0L) {
+      return(data.frame())
+    } else {
       content <- transform(
         content,
         predecessorcid = as.integer(predecessorcid),

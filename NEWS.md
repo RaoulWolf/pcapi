@@ -1,3 +1,8 @@
+# pcapi 0.2.1 (2022-05-03)
+
+* Minor bug fixes to error messages in `post_to_standardize()`, 
+  `post_to_transformation()` and `post_to_use()`.
+
 # pcapi 0.2.0 (2022-04-28)
 
 * Included new function `post_to_standardize()`.
