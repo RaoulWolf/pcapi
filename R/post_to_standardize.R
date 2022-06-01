@@ -2,10 +2,10 @@
 #'   Information
 #' @description This function performs a query to retrieve standardized
 #'   compound information for a provided SMILES, InChI or SDF
-#' @param x (Character) A SMILES, InChI or SDF as single character string.
-#' @param format (Character) The format of the provided string. Has to be one
+#' @param x (Character.) A SMILES, InChI or SDF as single character string.
+#' @param format (Character.) The format of the provided string. Has to be one
 #'   of "SMILES", "InChI" or "SDF".
-#' @param json (Logical) Should the result be returned as JSON? Defaults to
+#' @param json (Logical.) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
 #' @details The function performs a sanity check on the provided SMILES or
 #'   InChI (but not SDF) and then performs a query. If successful, a data.frame

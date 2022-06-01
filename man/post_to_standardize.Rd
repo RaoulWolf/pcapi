@@ -11,12 +11,12 @@ https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 post_to_standardize(x, format, json = FALSE)
 }
 \arguments{
-\item{x}{(Character) A SMILES, InChI or SDF as single character string.}
+\item{x}{(Character.) A SMILES, InChI or SDF as single character string.}
 
-\item{format}{(Character) The format of the provided string. Has to be one
+\item{format}{(Character.) The format of the provided string. Has to be one
 of "SMILES", "InChI" or "SDF".}
 
-\item{json}{(Logical) Should the result be returned as JSON? Defaults to
+\item{json}{(Logical.) Should the result be returned as JSON? Defaults to
 \code{FALSE}.}
 }
 \value{

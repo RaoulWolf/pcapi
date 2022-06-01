@@ -1,14 +1,17 @@
 #' @title POST Information to Retrieve PubChem CIDs
 #' @description This function performs a query to retrieve PubChem CIDs for
 #'   different inputs.
-#' @param x (Character) Input to the search, must match with the format.
-#' @param format (Character) Format type of the input. This is not case
+#' @param x (Character.) Input to the search, must match with the format.
+#' @param format (Character.) Format type of the input. This is not case
 #'   sensitive. Must be lower case! See Details for supported formats.
-#' @param json (Logical) Should the result be returned as JSON? Defaults to
+#' @param domain (Character.) Must be either \code{"compound"} (default) or
+#'   \code{"substance"}.
+#' @param json (Logical.) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
 #' @details The function performs a sanity check on the provided inputs and
-#'   then performs a query. If successful, a integer vector with the available
-#'   PubChem CID(s) will be returned.
+#'   then performs a query. If successful, an integer vector with the available
+#'   PubChem CID(s) will be returned for the \code{"compound"} domain, or a
+#'   list of PubChem SID(s) and CID(s) for the \code{"substance"} domain.
 #'
 #'   Supported formats include \code{"InChI"}, \code{"InChIKey"},
 #'   \code{"Name"}, \code{"SDF"}, and \code{"SMILES"}.
@@ -25,36 +28,47 @@
 #'   new_handle
 #' @importFrom jsonlite fromJSON
 #' @export
-post_to_cid <- function(x, format, json = FALSE) {
+post_to_cid <- function(x, format, domain = "compound", json = FALSE) {
 
   # sanity-check x
   if (missing(x) || is.na(x) || length(x) > 1L) {
-    stop("Invalid x.", call. = FALSE)
+    warning("Invalid x.", call. = FALSE)
+    return(NA_integer_)
   }
 
   # sanity-check format
   if (missing(format) || !.check_format(format)) {
-    stop("Invalid format.", call. = FALSE)
+    warning("Invalid format.", call. = FALSE)
+    return(NA_integer_)
   }
 
   # sanity-check inchi
   if (tolower(format) == "inchi" && !.check_inchi(x)) {
-    stop("Invalid InChI.", call. = FALSE)
+    warning("Invalid InChI.", call. = FALSE)
+    return(NA_integer_)
   }
 
   # sanity-check inchikey
   if (tolower(format) == "inchikey" && !.check_inchikey(x)) {
-    stop("Invalid InChIKey.", call. = FALSE)
+    warning("Invalid InChIKey.", call. = FALSE)
+    return(NA_integer_)
   }
 
   # sanity-check smiles
   if (tolower(format) == "smiles" && !.check_smiles(x)) {
-    stop("Invalid SMILES.", call. = FALSE)
+    warning("Invalid SMILES.", call. = FALSE)
+    return(NA_integer_)
+  }
+
+  if (!(domain %in% c("compound", "substance"))) {
+    warning("Invalid domain.", call. = FALSE)
+    return(NA_integer_)
   }
 
   # sanity-check json
   if (!.check_json(json)) {
-    stop("Invalid JSON.", call. = FALSE)
+    warning("Invalid JSON.", call. = FALSE)
+    return(NA_integer_)
   }
 
   # ensure format
@@ -62,7 +76,7 @@ post_to_cid <- function(x, format, json = FALSE) {
 
   # define url building blocks
   prolog <- "https://pubchem.ncbi.nlm.nih.gov/rest/pug"
-  input <- paste("compound", format, sep = "/")
+  input <- paste(domain, format, sep = "/")
   operation <- "cids"
 
   # compose url
@@ -102,20 +116,33 @@ post_to_cid <- function(x, format, json = FALSE) {
 
   # check status
   if (result$status_code != 200L) {
-    content <- jsonlite::fromJSON(content)
-    warning(content$Fault$Message, call. = FALSE)
-
-    if (!json) {
-      return(NA_integer_)
+    if (!grepl(pattern = "\\{", content)) {
+      if (!json) {
+        return(NA_integer_)
+      } else {
+        return(NA_character_)
+      }
     } else {
-      return(NA_character_)
+      content <- jsonlite::fromJSON(content)
+      warning(content$Fault$Message, call. = FALSE)
+      if (!json) {
+        return(NA_integer_)
+      } else {
+        return(NA_character_)
+      }
     }
   }
 
   # transform content
   if (!json) {
     content <- jsonlite::fromJSON(content)
-    content <- content$IdentifierList$CID
+    if (domain == "compound") {
+      content <- content$IdentifierList$CID
+    } else if (domain == "substance") {
+      content <- unique(
+        unlist(content$InformationList$Information$CID, use.names = FALSE)
+      )
+    }
 
     if (is.null(content) || content == 0L) {
       return(NA_integer_)

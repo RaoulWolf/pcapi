@@ -1,12 +1,12 @@
 #' @title POST PubChem CIDs to Retrieve Their Properties
 #' @description This function performs a query to retrieve properties for
 #'   PubChem CIDs.
-#' @param cid (Integer) PubChem CID(s) as single integer or a vector of
+#' @param cid (Integer.) PubChem CID(s) as single integer or a vector of
 #'   integers.
-#' @param property (Character) Properties to retrieve as single character or
+#' @param property (Character.) Properties to retrieve as single character or
 #'   vector of characters. This is case-sensitive! Defaults to \code{"all"}.
 #'   See Details for all available properties.
-#' @param json (Logical) Should the result be returned as JSON? Defaults to
+#' @param json (Logical.) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
 #' @details The function performs a sanity check on the provided PubChem CIDs
 #'   and properties and then performs a query. If successful, a data.frame with

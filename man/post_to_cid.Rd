@@ -7,15 +7,18 @@
 https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 }
 \usage{
-post_to_cid(x, format, json = FALSE)
+post_to_cid(x, format, domain = "compound", json = FALSE)
 }
 \arguments{
-\item{x}{(Character) Input to the search, must match with the format.}
+\item{x}{(Character.) Input to the search, must match with the format.}
 
-\item{format}{(Character) Format type of the input. This is not case
+\item{format}{(Character.) Format type of the input. This is not case
 sensitive. Must be lower case! See Details for supported formats.}
 
-\item{json}{(Logical) Should the result be returned as JSON? Defaults to
+\item{domain}{(Character.) Must be either \code{"compound"} (default) or
+\code{"substance"}.}
+
+\item{json}{(Logical.) Should the result be returned as JSON? Defaults to
 \code{FALSE}.}
 }
 \value{
@@ -28,8 +31,9 @@ This function performs a query to retrieve PubChem CIDs for
 }
 \details{
 The function performs a sanity check on the provided inputs and
-  then performs a query. If successful, a integer vector with the available
-  PubChem CID(s) will be returned.
+  then performs a query. If successful, an integer vector with the available
+  PubChem CID(s) will be returned for the \code{"compound"} domain, or a
+  list of PubChem SID(s) and CID(s) for the \code{"substance"} domain.
 
   Supported formats include \code{"InChI"}, \code{"InChIKey"},
   \code{"Name"}, \code{"SDF"}, and \code{"SMILES"}.

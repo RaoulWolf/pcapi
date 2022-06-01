@@ -10,14 +10,14 @@ https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 post_to_property(cid, property = "all", json = FALSE)
 }
 \arguments{
-\item{cid}{(Integer) PubChem CID(s) as single integer or a vector of
+\item{cid}{(Integer.) PubChem CID(s) as single integer or a vector of
 integers.}
 
-\item{property}{(Character) Properties to retrieve as single character or
+\item{property}{(Character.) Properties to retrieve as single character or
 vector of characters. This is case-sensitive! Defaults to \code{"all"}.
 See Details for all available properties.}
 
-\item{json}{(Logical) Should the result be returned as JSON? Defaults to
+\item{json}{(Logical.) Should the result be returned as JSON? Defaults to
 \code{FALSE}.}
 }
 \value{
