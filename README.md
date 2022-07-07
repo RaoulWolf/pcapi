@@ -46,8 +46,8 @@ You can install the development version of pcapi from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-remotes::install_github("RaoulWolf/pcapi")
+# install.packages("remotes")
+remotes::install_github("ZeroPM-H2020/pcapi")
 ```
 
 ## Functions
