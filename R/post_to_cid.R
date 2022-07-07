@@ -72,6 +72,7 @@ post_to_cid <- function(x, format, domain = "compound", json = FALSE) {
   }
 
   # ensure format
+  domain <- tolower(domain)
   format <- tolower(format)
 
   # define url building blocks
@@ -143,10 +144,9 @@ post_to_cid <- function(x, format, domain = "compound", json = FALSE) {
         unlist(content$InformationList$Information$CID, use.names = FALSE)
       )
     }
-
-    if (is.null(content) || content == 0L) {
-      return(NA_integer_)
-    }
+    # if (all(isFALSE(is.null(content) | (content == 0L)))) {
+    #   return(NA_integer_)
+    # }
   }
 
   # return content
