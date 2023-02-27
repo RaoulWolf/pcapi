@@ -1,4 +1,4 @@
-# pcapi 0.2.2 (2022-05-03)
+# pcapi 0.2.2 (2023-02-28)
 * Non-200 status codes will now return the entire JSON string when 
   `json = TRUE`. 
 
