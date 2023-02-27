@@ -123,37 +123,36 @@ post_to_property <- function(cid, property = "all", json = FALSE) {
   content <- rawToChar(result$content)
 
   # check status
-  if (result$status_code != 200L) {
-    content <- jsonlite::fromJSON(content)
-    warning(content$Fault$Message, call. = FALSE)
-
-    if (!json) {
-      return(list())
+  if(result$status_code != 200L) {
+    if(json) {
+      return(content)
     } else {
-      return(NA_character_)
+      content <- jsonlite::fromJSON(content)
+      warning(content$Fault$Message, call. = FALSE)
+      return(data.frame())
     }
   }
 
   # transform content
-  if (!json) {
+  if(!json) {
     content <- jsonlite::fromJSON(content)
     content <- content$PropertyTable$Properties
 
-    if ("MolecularWeight" %in% colnames(content)) {
+    if("MolecularWeight" %in% colnames(content)) {
       content <- transform(
         content,
         MolecularWeight = as.double(MolecularWeight)
       )
     }
 
-    if ("ExactMass" %in% colnames(content)) {
+    if("ExactMass" %in% colnames(content)) {
       content <- transform(
         content,
         ExactMass = as.double(ExactMass)
       )
     }
 
-    if ("MonoisotopicMass" %in% colnames(content)) {
+    if("MonoisotopicMass" %in% colnames(content)) {
       content <- transform(
         content,
         MonoisotopicMass = as.double(MonoisotopicMass)

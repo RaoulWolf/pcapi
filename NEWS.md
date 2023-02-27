@@ -1,3 +1,7 @@
+# pcapi 0.2.2 (2022-05-03)
+* Non-200 status codes will now return the entire JSON string when 
+  `json = TRUE`. 
+
 # pcapi 0.2.1 (2022-05-03)
 
 * Minor bug fixes to error messages in `post_to_standardize()`, 

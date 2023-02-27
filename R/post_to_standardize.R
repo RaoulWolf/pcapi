@@ -87,15 +87,18 @@ post_to_standardize <- function(x, format, json = FALSE) {
 
   content <- rawToChar(result$content)
 
-  if (!json) {
-
-    content <- jsonlite::fromJSON(content)
-
-    if (result$status_code != 200L) {
+  if(result$status_code != 200L) {
+    if(json) {
+      return(content)
+    } else {
       warning(content$Fault$Message, call. = FALSE)
       return(data.frame())
     }
+  }
 
+  if(!json) {
+
+    content <- jsonlite::fromJSON(content)
     content <- data.frame(
       "compound_id_type" = content$PC_Compounds$id$type,
       "compound_cid" = content$PC_Compounds$id$id$cid,

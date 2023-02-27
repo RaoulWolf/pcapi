@@ -116,37 +116,26 @@ post_to_cid <- function(x, format, domain = "compound", json = FALSE) {
   content <- rawToChar(result$content)
 
   # check status
-  if (result$status_code != 200L) {
-    if (!grepl(pattern = "\\{", content)) {
-      if (!json) {
-        return(NA_integer_)
-      } else {
-        return(NA_character_)
-      }
+  if(result$status_code != 200L) {
+    if(json) {
+      return(content)
     } else {
       content <- jsonlite::fromJSON(content)
       warning(content$Fault$Message, call. = FALSE)
-      if (!json) {
-        return(NA_integer_)
-      } else {
-        return(NA_character_)
-      }
+      return(NA_integer_)
     }
   }
 
   # transform content
-  if (!json) {
+  if(!json) {
     content <- jsonlite::fromJSON(content)
-    if (domain == "compound") {
+    if(domain == "compound") {
       content <- content$IdentifierList$CID
-    } else if (domain == "substance") {
+    } else if(domain == "substance") {
       content <- unique(
         unlist(content$InformationList$Information$CID, use.names = FALSE)
       )
     }
-    # if (all(isFALSE(is.null(content) | (content == 0L)))) {
-    #   return(NA_integer_)
-    # }
   }
 
   # return content

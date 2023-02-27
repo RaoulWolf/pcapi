@@ -1,7 +1,7 @@
 Package: pcapi
 Type: Package
 Title: Access the PubChem API Services
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: 
     c(person(given = "Raoul",
              family = "Wolf",
@@ -16,7 +16,7 @@ Imports:
     curl, 
     jsonlite
 Encoding: UTF-8
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
 URL: https://github.com/RaoulWolf/pcapi
 BugReports: https://github.com/RaoulWolf/pcapi/issues
 Suggests: 
