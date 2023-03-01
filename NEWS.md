@@ -1,3 +1,7 @@
+# pcapi 0.2.3 (2023-03-01)
+* Experimental parameter `preferred_cids` added to `post_to_cid()`. Thanks to 
+  Evan for the idea!
+
 # pcapi 0.2.2 (2023-02-28)
 * Non-200 status codes will now return the entire JSON string when 
   `json = TRUE`. 

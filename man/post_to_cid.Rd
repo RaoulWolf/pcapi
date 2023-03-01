@@ -7,7 +7,13 @@
 https://pubchemdocs.ncbi.nlm.nih.gov/pug-rest-tutorial
 }
 \usage{
-post_to_cid(x, format, domain = "compound", json = FALSE)
+post_to_cid(
+  x,
+  format,
+  domain = "compound",
+  preferred_cids = FALSE,
+  json = FALSE
+)
 }
 \arguments{
 \item{x}{(Character.) Input to the search, must match with the format.}
@@ -17,6 +23,10 @@ sensitive. Must be lower case! See Details for supported formats.}
 
 \item{domain}{(Character.) Must be either \code{"compound"} (default) or
 \code{"substance"}.}
+
+\item{preferred_cids}{(Logical.) Should only the preferred (i.e., "live")
+CIDs be returned? Defaults to \code{FALSE}. Only available for the
+\code{"compound"} domain.}
 
 \item{json}{(Logical.) Should the result be returned as JSON? Defaults to
 \code{FALSE}.}

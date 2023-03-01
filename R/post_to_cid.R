@@ -6,6 +6,9 @@
 #'   sensitive. Must be lower case! See Details for supported formats.
 #' @param domain (Character.) Must be either \code{"compound"} (default) or
 #'   \code{"substance"}.
+#' @param preferred_cids (Logical.) Should only the preferred (i.e., "live")
+#'   CIDs be returned? Defaults to \code{FALSE}. Only available for the
+#'   \code{"compound"} domain.
 #' @param json (Logical.) Should the result be returned as JSON? Defaults to
 #'   \code{FALSE}.
 #' @details The function performs a sanity check on the provided inputs and
@@ -28,7 +31,7 @@
 #'   new_handle
 #' @importFrom jsonlite fromJSON
 #' @export
-post_to_cid <- function(x, format, domain = "compound", json = FALSE) {
+post_to_cid <- function(x, format, domain = "compound", preferred_cids = FALSE, json = FALSE) {
 
   # sanity-check x
   if (missing(x) || is.na(x) || length(x) > 1L) {
@@ -82,6 +85,9 @@ post_to_cid <- function(x, format, domain = "compound", json = FALSE) {
 
   # compose url
   url <- paste(prolog, input, operation, sep = "/")
+  if(domain == "compound" && preferred_cids) {
+    url <- paste(url, "cids_type=preferred", sep = "?")
+  }
 
   # define header
   header <- list(
